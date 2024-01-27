@@ -5,12 +5,16 @@ Parameters:
   ResourceName:
     Description: Name for the S3 bucket and DynamoDB table. Defaults to account ID.
     Type: String
-    AllowedPattern: '^(?!xn--|sthree-|sthree-configurator)[a-z0-9]([a-z0-9\-]{1,18}[a-z0-9])?(?<!\.\.)$'
-    ConstraintDescription: Must be 3-20 characters long, include only lowercase, numbers, dots, or hyphens, not start/end with xn--, sthree-, sthree-configurator, or --ol-s3, and not be an IP address.
+    AllowedPattern: '^(?!xn--|sthree-|sthree-configurator)[a-z0-9]([a-z0-9\-]{1,48}[a-z0-9])?(?<!\.\.)$'
+    ConstraintDescription: Must be 3-50 characters long, include only lowercase, numbers, dots, or hyphens, not start/end with xn--, sthree-, sthree-configurator, or --ol-s3, and not be an IP address.
   OldVersionExpiryDays:
-    Description: Days to keep the old versions of state files.
+    Description: Specifies when noncurrent object versions expire. Upon expiration, Amazon S3 permanently deletes the noncurrent object versions.
     Default: 90
     Type: Number
+  NumberOfVersionsToRetain:
+    Description: Specifies how many newest noncurrent versions Amazon S3 will retain anyway - even after expiration day.
+    Type: Number
+    Default: 3
 
 Conditions:
   NameProvided: !Not [!Equals [!Ref ResourceName, ""]]
@@ -56,7 +60,9 @@ Resources:
         Rules:
           - Id: ExpireNoncurrentVersions
             Status: Enabled
-            NoncurrentVersionExpirationInDays: !Ref OldVersionExpiryDays
+            NoncurrentVersionExpiration: 
+              NewerNoncurrentVersions: !Ref NumberOfVersionsToRetain
+              NoncurrentDays: !Ref OldVersionExpiryDays
       PublicAccessBlockConfiguration:
         BlockPublicAcls: true
         BlockPublicPolicy: true
