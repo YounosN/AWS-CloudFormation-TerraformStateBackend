@@ -17,7 +17,7 @@ The `cloudformation-template.yaml` file creates the following resources:
 3. Deploy the template using AWS CLI or AWS Management Console.
 
 ## Parameters
-- `ResourceName`: Name for the S3 bucket and DynamoDB table. Defaults to a combination of the stack name and AWS account ID.
+- `ResourceName`: Name for the S3 bucket and DynamoDB table. Defaults to AWS account ID.
 - `OldVersionExpiryDays`: Number of days to retain older versions of the state files.
 
 ## Outputs

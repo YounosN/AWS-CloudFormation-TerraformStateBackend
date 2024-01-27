@@ -3,8 +3,10 @@ Description: Template to set up S3 bucket and DynamoDB for Terraform backend sto
 
 Parameters:
   ResourceName:
-    Description: Name for the S3 bucket and DynamoDB table. Defaults to combination of stack name and account ID.
+    Description: Name for the S3 bucket and DynamoDB table. Defaults to account ID.
     Type: String
+    AllowedPattern: '^(?!xn--|sthree-|sthree-configurator)[a-z0-9]([a-z0-9\-]{1,18}[a-z0-9])?(?<!\.\.)$'
+    ConstraintDescription: Must be 3-20 characters long, include only lowercase, numbers, dots, or hyphens, not start/end with xn--, sthree-, sthree-configurator, or --ol-s3, and not be an IP address.
   OldVersionExpiryDays:
     Description: Days to keep the old versions of state files.
     Default: 90
@@ -20,7 +22,7 @@ Resources:
     UpdateReplacePolicy: Retain
     Properties:
       BillingMode: PAY_PER_REQUEST
-      TableName: !If [NameProvided, !Ref ResourceName, !Sub "tf-state-${AWS::StackName}-${AWS::AccountId}"]
+      TableName: !If [NameProvided, !Ref ResourceName, !Sub "tf-state-${AWS::AccountId}"]
       AttributeDefinitions:
         - AttributeName: LockID
           AttributeType: S
@@ -44,7 +46,7 @@ Resources:
     UpdateReplacePolicy: Retain
     Properties:
       AccessControl: Private
-      BucketName: !If [NameProvided, !Ref ResourceName, !Sub "tf-state-${AWS::StackName}-${AWS::AccountId}"]
+      BucketName: !If [NameProvided, !Ref ResourceName, !Sub "tf-state-${AWS::AccountId}"]
       BucketEncryption:
         ServerSideEncryptionConfiguration:
           - ServerSideEncryptionByDefault:
