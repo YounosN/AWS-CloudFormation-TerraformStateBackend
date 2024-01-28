@@ -71,24 +71,6 @@ Resources:
       VersioningConfiguration:
         Status: Enabled
 
-  TerraformS3BucketPolicy:
-    Type: AWS::S3::BucketPolicy
-    DeletionPolicy: Retain
-    UpdateReplacePolicy: Retain
-    Properties:
-      Bucket: !Ref TerraformS3Bucket
-      PolicyDocument:
-        Version: "2012-10-17"
-        Statement:
-          - Sid: EnforceSSE-S3
-            Effect: Deny
-            Action: s3:PutObject
-            Principal: "*"
-            Resource: !Sub "${TerraformS3Bucket.Arn}/*"
-            Condition:
-              StringNotEquals:
-                "s3:x-amz-server-side-encryption": "AES256"
-
 Outputs:
   DynamoDBTableName:
     Description: DynamoDB table name for Terraform state locking.

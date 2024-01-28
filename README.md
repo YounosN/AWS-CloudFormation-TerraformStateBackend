@@ -6,10 +6,9 @@ This project contains a CloudFormation template for setting up an S3 bucket and 
 **_Note: This is a minimalist version of the setup. For production environments, consider adding additional features such as KMS encryption, more complex IAM roles, and detailed logging._**
 
 ## Template Details
-The `cloudformation-template.yaml` file creates the following resources:
+The `cloudformation-template.template` file creates the following resources:
 - S3 Bucket for Terraform state files.
 - DynamoDB table for state locking.
-- S3 Bucket Policy for enforcing server-side encryption.
 
 ## Usage
 1. Clone this repository.
@@ -18,7 +17,8 @@ The `cloudformation-template.yaml` file creates the following resources:
 
 ## Parameters
 - `ResourceName`: Name for the S3 bucket and DynamoDB table. Defaults to AWS account ID.
-- `OldVersionExpiryDays`: Number of days to retain older versions of the state files.
+- `OldVersionExpiryDays`: Specifies when noncurrent object versions expire. Upon expiration, Amazon S3 permanently deletes the noncurrent object versions.
+- `NumberOfVersionsToRetain`: Specifies how many newest noncurrent versions Amazon S3 will retain anyway - even after expiration day.
 
 ## Outputs
 - `DynamoDBTableName`: Name of the DynamoDB table used for Terraform state locking.
