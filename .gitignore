@@ -1,16 +1,6 @@
 # macOS-specific
 .DS_Store
 
-# Node modules
-node_modules/
-
-# Directory for built distributions
-dist/
-
-# S3 bucket state files
-*.tfstate
-*.tfstate.backup
-
 # Ignore logs
 *.log
 
