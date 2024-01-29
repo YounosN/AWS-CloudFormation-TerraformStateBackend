@@ -1,5 +1,10 @@
 # Terraform Backend AWS Setup
 
+[![Launch Stack][launch-stack-image]][launch-stack-link]
+
+[launch-stack-image]: https://github.com/YounosN/AWS-CloudFormation-TerraformStateBackend/blob/main/launch-stack.svg
+[launch-stack-link]: https://console.aws.amazon.com/cloudformation/home?region=us-west-2#/stacks/new?stackName=minimalist-terraform-backend&templateURL=https://younosn.s3.us-west-2.amazonaws.com/cloudformation-templates/minimalist-terraform-backend/terraform-state-backend.template
+
 ## Overview
 This project contains a CloudFormation template for setting up an S3 bucket and a DynamoDB table to be used as a Terraform backend for state storage and state locking.
 
